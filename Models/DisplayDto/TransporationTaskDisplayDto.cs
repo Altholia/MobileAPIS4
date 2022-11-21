@@ -5,8 +5,8 @@ namespace MobileAPIS4.Models.DisplayDto;
 
 public class TransporationTaskDisplayDto
 {
-    public int TaskId { get; set; }
-    public string TaskName { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
     public int StartDistrictId { get; set; }
     public string StartStreetAddress { get; set; }
     public int DestinationDistrictId { get; set; }

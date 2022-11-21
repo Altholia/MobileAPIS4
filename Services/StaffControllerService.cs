@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MobileAPIS4.DtoParameter;
 using MobileAPIS4.Entities;
+using MobileAPIS4.Helpers;
 
 namespace MobileAPIS4.Services;
 
@@ -45,5 +47,29 @@ public class StaffControllerService:IStaffControllerService
             .Where(r => r.Id == roleId)
             .AsNoTracking()
             .FirstOrDefaultAsync();
+    }
+
+    /// <summary>
+    /// 获取空闲车队的所有负责人
+    /// </summary>
+    /// <returns>返回负责人</returns>
+    public async Task<IEnumerable<Staff>> GetFreeVehicleTeamAdministrator()
+    {
+        List<int> list = await _context.TransporationTasks
+            .Where(r => r.StatusId != ((int)TaskStatusEnum.Finished))
+            .Select(r => r.VehicleTeamAdministrator)
+            .ToListAsync();
+
+        int roleId = await _context.Roles.Where(r => r.Name.Equals("Vehicle Team Administrator"))
+            .Select(r => r.Id)
+            .FirstOrDefaultAsync();
+
+        IQueryable<Staff> linq=_context.Staff as IQueryable<Staff>;
+        foreach (var i in list)
+        {
+            linq = linq.Where(r => r.Id != i);
+        }
+
+        return await linq.Where(r=>r.RoleId==roleId).ToListAsync();
     }
 }

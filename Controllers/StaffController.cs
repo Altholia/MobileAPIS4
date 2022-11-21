@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -62,13 +63,11 @@ public class StaffController:ControllerBase
         Staff staffEntity = await _service.GetStaffAsync(parameter);
         if (staffEntity == null)
         {
-            _logger.LogWarning(
-                $"{nameof(StaffController)}_{nameof(GetStaffAsync)}：请求的资源不存在——请求参数为：{parameter.Telephone}&&{parameter.Password}");
+            _logger.LogWarning($"{nameof(GetStaffAsync)}：请求的资源不存在");
             return NotFound();
         }
 
-        _logger.LogInformation(
-            $"{nameof(StaffController)}_{nameof(GetStaffAsync)}：请求成功——请求参数为：{parameter.Telephone}&&{parameter.Password}");
+        _logger.LogInformation($"{nameof(GetStaffAsync)}：请求成功");
 
         StaffDisplayDto staffDisplayDto = _mapper.Map<StaffDisplayDto>(staffEntity);
         return Ok(staffDisplayDto);
@@ -85,15 +84,28 @@ public class StaffController:ControllerBase
         Role roleEntity = await _service.GetRoleAsync(roleId);
         if (roleEntity == null)
         {
-            _logger.LogWarning(
-                $"{nameof(StaffController)}_{nameof(GetRoleAsync)}：请求的资源不存在——请求参数为：{roleId}");
+            _logger.LogWarning($"{nameof(GetRoleAsync)}：请求的资源不存在");
             return NotFound();
         }
 
-        _logger.LogInformation(
-            $"{nameof(StaffController)}_{nameof(GetRoleAsync)}：请求成功——请求参数为：{nameof(roleId)}");
+        _logger.LogInformation($"{nameof(GetRoleAsync)}：请求成功");
 
         RoleDisplayDto staffDisplayDto = _mapper.Map<RoleDisplayDto>(roleEntity);
         return Ok(staffDisplayDto);
+    }
+
+    [HttpGet("freeVehicleTeamAdministrator")]
+    public async Task<ActionResult<IEnumerable<StaffDisplayDto>>> GetFreeVehicleTeamAdministrator()
+    {
+        IEnumerable<Staff> staffs=await _service.GetFreeVehicleTeamAdministrator();
+        if (!staffs.Any())
+        {
+            _logger.LogWarning($"{nameof(GetFreeVehicleTeamAdministrator)}请求失败：没有找到相关的数据");
+            return NotFound();
+        }
+
+        IEnumerable<StaffDisplayDto> staffDisplayDtos = _mapper.Map<IEnumerable<StaffDisplayDto>>(staffs);
+        return Ok(staffDisplayDtos);
+
     }
 }

@@ -37,4 +37,17 @@ public class PageList<T>:List<T>
             
         return new PageList<T>(items, parameter.CurrentPage, parameter.PageSize, totalData);
     }
+
+    public static async Task<PageList<T>> CreatePagingAsync(
+        ProvinceControllerParameter parameter,
+        IQueryable<T> linq)
+    {
+        int totalData = await linq.CountAsync();
+        var items = await linq.TagWith("根据TaskId获取TransporationTask的信息，并进行分页")
+            .Skip(parameter.PageSize * (parameter.CurrentPage - 1))
+            .Take(parameter.PageSize)
+            .ToListAsync();
+
+        return new PageList<T>(items, parameter.CurrentPage, parameter.PageSize, totalData);
+    }
 }

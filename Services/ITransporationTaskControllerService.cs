@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MobileAPIS4.DtoParameter;
 using MobileAPIS4.Entities;
 using MobileAPIS4.Helpers;
@@ -25,4 +26,29 @@ public interface ITransporationTaskControllerService
     //获取“进行中”的运输任务
     public Task<PageList<TransporationTask>> GetOngoingTransporationTaskAsync(
         TransporationTaskControllerParameter parameter);
+
+    //获取“已完成”的运输任务
+    public Task<PageList<TransporationTask>> GetFinishedTransporationTaskAsync(
+        TransporationTaskControllerParameter parameter);
+
+    //获取所有的运输状态
+    public Task<IEnumerable<TaskStatus>> GetTotalTaskStatusAsync();
+
+    //添加运输任务1（基本信息）
+    public bool AddTransporationTaskAsync(TransporationTask transporationTask);
+
+    //添加运输任务2（任务分配信息）
+    public void AddTaskAssignCollection(IEnumerable<TaskAssign> taskAssign);
+
+    //获取任务分配信息
+    public Task<IEnumerable<TaskAssign>> GetTaskAssignByIdsAsync(IEnumerable<int> taskIds);
+
+    //根据StaffId获取所有未完成的运输任务
+    public Task<IEnumerable<TransporationTask>> GetTransporationTaskByStaffIdAsync(int staffId);
+
+    //根据运输任务ID修改他的任务状态
+    public Task<TransporationTask> UpdateTransporationTaskStatusById(int taskId);
+
+    //保存数据至数据库中
+    public Task<bool> SaveAsync();
 }

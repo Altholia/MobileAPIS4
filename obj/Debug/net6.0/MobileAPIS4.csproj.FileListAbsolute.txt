@@ -61,3 +61,7 @@ D:\E\C# Engineering\MobileAPIS4\obj\Debug\net6.0\refint\MobileAPIS4.dll
 D:\E\C# Engineering\MobileAPIS4\obj\Debug\net6.0\MobileAPIS4.pdb
 D:\E\C# Engineering\MobileAPIS4\obj\Debug\net6.0\MobileAPIS4.genruntimeconfig.cache
 D:\E\C# Engineering\MobileAPIS4\obj\Debug\net6.0\ref\MobileAPIS4.dll
+D:\E\C# Engineering\MobileAPIS4\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\E\C# Engineering\MobileAPIS4\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\E\C# Engineering\MobileAPIS4\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\E\C# Engineering\MobileAPIS4\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
